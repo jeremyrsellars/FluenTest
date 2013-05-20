@@ -1,0 +1,65 @@
+﻿#pragma indent
+
+using Nemerle
+using Nemerle.Collections
+using Nemerle.Compiler
+using Nemerle.Compiler.Parsetree
+using Nemerle.Text
+using Nemerle.Utility
+
+using System
+using System.Collections.Generic
+using System.Linq
+
+using Microsoft.VisualStudio.TestTools.UnitTesting
+using Microsoft.VisualStudio.TestTools.UnitTesting.Assert
+
+namespace FluenTest
+  public macro ShouldBe(actual, expected)\
+  syntax("assert", actual, "should", "be", expected)
+    def literalTypeIsBool(boolLiteral : PExpr.Literal)
+      boolLiteral.val is Literal.Bool
+    match(expected)
+      | literal is PExpr.Literal when literalTypeIsBool(literal) with boolLiteral = literal.val :> Literal.Bool =>
+        if (boolLiteral.val)
+          <[ IsTrue($actual) ]>
+        else
+          <[ IsFalse($actual) ]>
+      | _ => <[ AreEqual($expected, $actual) ]>
+  
+  public macro ShouldReferTo(actual, expected)\
+  syntax("assert", actual, "should", "refer", "to", expected)
+    <[ IsTrue(ReferenceEquals($expected, $actual)) ]>
+  
+  public macro ShouldNotReferTo(actual, expected)\
+  syntax("assert", actual, "should", "not", "refer", "to", expected)
+    <[ IsFalse(ReferenceEquals($expected, $actual)) ]>
+  
+  //public macro ShouldNotBe(actual, unexpected)\
+  //syntax("assert", actual, "should", "not", "be", unexpected)
+  //  <[ AreNotEqual($unexpected, $actual) ]>
+  
+  public macro ShouldMatch(actual, predicate)\
+  syntax("assert", actual, "should", "match", predicate)
+    <[ IsTrue($predicate($actual)) ]>
+  
+  public macro ShouldThrow(block, exceptionType, validationBlock)\
+  syntax("assert", block, "should", "throw", exceptionType, Optional("and", validationBlock))
+    def exception = exceptionType.ToString()
+    def validation = if(validationBlock != null) <[$validationBlock;]> else <[()]>
+    <[
+      def expectedException = $exception;
+      mutable exceptionThrown = false;
+      try
+        $block
+      catch
+      {
+        | _ is $exceptionType =>
+          exceptionThrown = true;
+          $validation;
+        | e => Fail($"Expected $expectedException, got $e.");
+      }
+      unless(exceptionThrown)
+        Fail($"Expected $expectedException, but no exception was thrown.");
+    ]>
+

@@ -1,0 +1,45 @@
+﻿#pragma indent
+
+using Nemerle
+using Nemerle.Collections
+using Nemerle.Compiler
+using Nemerle.Compiler.Parsetree
+using Nemerle.Text
+using Nemerle.Utility
+
+using System
+using System.Collections.Generic
+using System.Linq
+
+namespace FluenTest
+  [Nemerle.MacroUsage (Nemerle.MacroPhase.WithTypedMembers, Nemerle.MacroTargets.Method)]\
+  public macro OneLiner (t : TypeBuilder, f : MethodBuilder)
+    def normalizeMethodName(name)
+      def replacePeriodsBecauseResharperTestsDoNotLikeThem(s)
+        s.Replace(".", "\u00B7")
+      replacePeriodsBecauseResharperTestsDoNotLikeThem(name)
+    def addTestMethod(expr : PExpr)
+    {
+      | seq is PExpr.Sequence =>
+        seq.body.Iter(addTestMethod)
+      | call is PExpr.MacroCall
+      | call is PExpr.Call =>
+        {
+          def loc = call.Location;
+          def name = Splicable.Name(loc, Name(normalizeMethodName(f.Name + " :: " + call.ToString())));
+          t.Define(ClassMember.Function(
+            loc,
+            name,
+            AttributesAndModifiers(
+              NemerleAttributes.Public,
+              [<[ Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod ]> ]),
+            PFunHeader(loc, name, PExpr.Void(), []),
+            [],
+            FunBody.Parsed(call)))
+        }
+    }
+    
+    def body = f.Body
+    addTestMethod(body)
+    f.Modifiers.Modifiers = (f.Modifiers.Modifiers & ~NemerleModifiers.AccessModifiers) | NemerleAttributes.Public
+    f.Modifiers.CustomAttributes = <[ Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod ]> :: f.Modifiers.CustomAttributes
