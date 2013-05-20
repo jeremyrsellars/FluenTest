@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{EDCC3B85-0BAD-11DB-BC1A-00112FDE8B61}") = "FluenTest", "FluenTest\FluenTest.nproj", "{A6D9ACC7-A57A-40BA-9923-62B06234D1F8}"
 EndProject
+Project("{EDCC3B85-0BAD-11DB-BC1A-00112FDE8B61}") = "SampleTests", "SampleTests\SampleTests.nproj", "{594177A0-7622-4A4B-89F2-3FDFE9DB21B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{A6D9ACC7-A57A-40BA-9923-62B06234D1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6D9ACC7-A57A-40BA-9923-62B06234D1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6D9ACC7-A57A-40BA-9923-62B06234D1F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{594177A0-7622-4A4B-89F2-3FDFE9DB21B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{594177A0-7622-4A4B-89F2-3FDFE9DB21B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{594177A0-7622-4A4B-89F2-3FDFE9DB21B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{594177A0-7622-4A4B-89F2-3FDFE9DB21B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

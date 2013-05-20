@@ -1,0 +1,43 @@
+﻿#pragma indent
+
+using System
+using System.Collections.Generic
+
+using Microsoft.VisualStudio.TestTools.UnitTesting
+using FluenTest
+
+namespace SampleTests
+  [TestClass]\
+  public class FluentAssertions
+    [TestMethod]\
+    public AZeroLengthSubstringShouldBeEmpty() : void
+      assert "asdf".Substring(0,0) should be ""
+      assert "asdf".Substring(0,0) should refer to string.Empty
+
+    [TestMethod]\
+    public Int32ToStringYieldsADifferentStringEachCall() : void
+      def s1 = 5.ToString()
+      def s2 = 5.ToString()
+      assert s1 shouldnt refer to s2
+
+    static IsEven(value : int) : bool
+      value % 2 == 0
+
+    static IsOdd(value : int) : bool
+      value % 2 == 1
+
+    [TestMethod]\
+    public FiveIsOdd() : void
+      assert 5 should match IsOdd
+
+    [TestMethod]\
+    public ASubstringStartingAtANegativeIndexShouldThrow() : void
+      assert _ = "asdf".Substring(-1,0) should throw ArgumentException
+
+    [TestMethod]\
+    public AddingToDictionaryWithNullKeyShouldNotChangeDictionary() : void
+      def dict = Dictionary.[string,string]()
+      dict["0"] = "zero"
+      dict["1"] = "one"
+      assert dict[null] = "null" should throw ArgumentNullException and assert dict.Keys.Count should be 2
+
