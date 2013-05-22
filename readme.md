@@ -102,12 +102,70 @@ When a test consists of a single line of code, in C# this would probably require
 
 Did you notice my copy and paste error (1+2 = 3, but the method is named "...ShouldBe1")?  Code written this way violates the single truth rule.
 
-Now consider to the following Nemerle FluenTest code.  The equivilant code which is grouped nicely.  The code expresses in 3 lines what took 10 to do above.
+Now consider to the following Nemerle FluenTest code.  The equivilant code which is grouped nicely.  The code expresses in 3-4 lines what took 10 to do above.
 
 ```nemerle
-[OneLiner] Add() : void
+[OneLiner]\
+Add() : void
   Assert.AreEqual(1, 0.Add(1));
   Assert.AreEqual(3, 0.Add(1).Add(2));
 ```
 
 Writing tests in this concise way lets you express and describe the behavior in code.
+
+# Behavior Driven Development Sample
+
+This sample illustrates a way of making concise BDD-style tests.  The following code defines 12 tests in `MathBddTest` which is the base class for classes `WhenBaseNumberIs0`, `WhenBaseNumberIs1`, etc.  So, 48 tests are defined in all (in ~46 lines of code).
+
+```nemerle
+#pragma indent
+
+using System
+using Microsoft.VisualStudio.TestTools.UnitTesting
+using FluenTest
+
+namespace SampleTests
+  [Record]\
+  public abstract class MathBddTest
+    protected BaseNumber : int
+
+    [OneLiner] Add() : void
+      assert BaseNumber.Add(0) should be BaseNumber
+      assert BaseNumber.Add(2) should be BaseNumber + 2
+      assert BaseNumber.Add(-3) should be BaseNumber - 3
+
+    [OneLiner] Subtract() : void
+      assert BaseNumber.Subtract(0) should be BaseNumber
+      assert BaseNumber.Subtract(2) should be BaseNumber - 2
+      assert BaseNumber.Subtract(-3) should be BaseNumber + 3
+
+    [OneLiner] Multiply() : void
+      assert BaseNumber.Multiply(0) should be 0
+      assert BaseNumber.Multiply(2) should be BaseNumber * 2
+      assert BaseNumber.Multiply(-3) should be BaseNumber * -3
+
+    [OneLiner] DivideBy() : void
+      assert _ = BaseNumber.DivideBy(0) should throw DivideByZeroException
+      assert BaseNumber.DivideBy(2) should be BaseNumber / 2
+      assert BaseNumber.DivideBy(-3) should be BaseNumber / -3
+
+    [TestClass] public class WhenNumberIs0 : MathBddTest
+      public this()
+        base(0)
+
+    [TestClass] public class WhenNumberIs1 : MathBddTest
+      public this()
+        base(1)
+
+    [TestClass] public class WhenNumberIs2 : MathBddTest
+      public this()
+        base(2)
+
+    [TestClass] public class WhenNumberIs60 : MathBddTest
+      public this()
+        base(60)
+```
+
+## Happy testing
+
+Feel free to contact me, add issues, or suggest improvements.

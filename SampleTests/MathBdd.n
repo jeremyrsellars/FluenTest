@@ -1,0 +1,56 @@
+﻿#pragma indent
+
+using System
+using Microsoft.VisualStudio.TestTools.UnitTesting
+using FluenTest
+
+namespace SampleTests
+  [Record]\
+  public abstract class MathBddTest
+    protected BaseNumber : int
+
+    [OneLiner] Add() : void
+      assert BaseNumber.Add(0) should be BaseNumber
+      assert BaseNumber.Add(2) should be BaseNumber + 2
+      assert BaseNumber.Add(-3) should be BaseNumber - 3
+
+    [OneLiner] Subtract() : void
+      assert BaseNumber.Subtract(0) should be BaseNumber
+      assert BaseNumber.Subtract(2) should be BaseNumber - 2
+      assert BaseNumber.Subtract(-3) should be BaseNumber + 3
+
+    [OneLiner] Multiply() : void
+      assert BaseNumber.Multiply(0) should be 0
+      assert BaseNumber.Multiply(2) should be BaseNumber * 2
+      assert BaseNumber.Multiply(-3) should be BaseNumber * -3
+
+    [OneLiner] DivideBy() : void
+      assert _ = BaseNumber.DivideBy(0) should throw DivideByZeroException
+      assert BaseNumber.DivideBy(2) should be BaseNumber / 2
+      assert BaseNumber.DivideBy(-3) should be BaseNumber / -3
+
+    [TestClass] public class WhenNumberIs0 : MathBddTest
+      public this()
+        base(0)
+
+    [TestClass] public class WhenNumberIs1 : MathBddTest
+      public this()
+        base(1)
+
+    [TestClass] public class WhenNumberIs2 : MathBddTest
+      public this()
+        base(2)
+
+    [TestClass] public class WhenNumberIs60 : MathBddTest
+      public this()
+        base(60)
+
+  module Arithmetic
+    public Add(this n : int, m : int) : int
+      n + m
+    public Subtract(this n : int, m : int) : int
+      n - m
+    public Multiply(this n : int, m : int) : int
+      n * m
+    public DivideBy(this n : int, m : int) : int
+      n / m

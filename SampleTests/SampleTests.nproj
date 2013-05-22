@@ -68,6 +68,9 @@
     <Compile Include="LowCeremonyTests.n">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MathBdd.n">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.n" />
   </ItemGroup>
   <ItemGroup>
