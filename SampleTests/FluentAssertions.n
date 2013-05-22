@@ -11,14 +11,14 @@ namespace SampleTests
   public class FluentAssertions
     [TestMethod]\
     public AZeroLengthSubstringShouldBeEmpty() : void
-      assert "asdf".Substring(0,0) should be ""
-      assert "asdf".Substring(0,0) should refer to string.Empty
+      assert "sweet!".Substring(0,0) should be ""
+      assert "cool!".Substring(0,0) should refer to string.Empty
 
     [TestMethod]\
     public Int32ToStringYieldsADifferentStringEachCall() : void
       def s1 = 5.ToString()
       def s2 = 5.ToString()
-      assert s1 shouldnt refer to s2
+      assert s1 should not refer to s2
 
     static IsEven(value : int) : bool
       value % 2 == 0
@@ -29,6 +29,10 @@ namespace SampleTests
     [TestMethod]\
     public FiveIsOdd() : void
       assert 5 should match IsOdd
+
+    [TestMethod]\
+    public AIsUpper() : void
+      assert char.IsUpper('A') should be true
 
     [TestMethod]\
     public ASubstringStartingAtANegativeIndexShouldThrow() : void
