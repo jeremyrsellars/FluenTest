@@ -6,6 +6,10 @@ As clean coders, we put a high value on cleanliness in code, especially unit tes
 
 The Nemerle programming language is a particularly clean, readable, and extensible syntax, making it easy to write self-documenting tests that are easy to read, understand, and maintain.
 
+### Test any .net code with tests written in Nemerle with FluenTest
+
+Nemerle is a .net language, and as such it can target any .net assembly.  Write your library in C#, F#, clojure.net, VB.net, Nemerle.  Then, write your tests in Nemerle and FluenTest.
+
 ### Fluent Assertions (Syntax extensions in Nemerle)
 
 Fluent assertions are easy to read.  Check these out:
