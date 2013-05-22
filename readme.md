@@ -43,3 +43,33 @@ assert _ = "throw".Substring(-1,0) should throw ArgumentException
 //    Assert.Fail("Expected ArgumentException, but no exception was thrown.");
 ```
 
+### Low-ceremony single-line tests
+
+```nemerle
+
+#pragma indent
+
+using System
+using Microsoft.VisualStudio.TestTools.UnitTesting
+using FluenTest
+
+namespace SampleTests
+  [TestClass]\
+  public class LowCeremonyTests
+    [OneLiner] Substring() : void
+      assert "sweet!".Substring(0,0) should be ""
+      assert "great!".Substring(5,1) should be "!"
+      assert "012345".Substring(2,3) should be "234"
+      assert "cool!".Substring(0,0) should refer to string.Empty
+      assert _ = "asdf".Substring(-1,0) should throw ArgumentException
+
+    [OneLiner] Upper() : void
+      assert char.IsUpper('A') should be true
+      assert char.IsUpper('b') should be false
+      assert char.IsUpper('4') should be false
+
+```
+
+The sample above defines 5 Substring tests and 3 Upper tests.  In standard MSTest style, the above would be two tests, not 8.  With the `[OneLiner]` macro, 8 tests are defined as seen below.  And they have clear names - No more restating test code in english just to give the test a memorable name.
+
+![Resharper showing off our awesome test method names](master/SampleTests/Images/ResharperLowCeremonyTests.png)
