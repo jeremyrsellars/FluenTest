@@ -43,7 +43,9 @@ assert _ = "throw".Substring(-1,0) should throw ArgumentException
 //    Assert.Fail("Expected ArgumentException, but no exception was thrown.");
 ```
 
-### Low-ceremony single-line tests
+### Low-ceremony: Single-line tests
+
+Unit tests that describe a behavior should just test one behavior at a time.  A behavior can be described in a single sentence, so why not a single line of code?  
 
 ```nemerle
 
@@ -73,3 +75,39 @@ namespace SampleTests
 The sample above defines 5 Substring tests and 3 Upper tests.  In standard MSTest style, the above would be two tests, not 8.  With the `[OneLiner]` macro, 8 tests are defined as seen below.  And they have clear names - No more restating test code in english just to give the test a memorable name.
 
 ![Resharper showing off our awesome test method names](SampleTests/Images/ResharperLowCeremonyTests.png)
+
+### Low-ceremony: No need to define a test twice (english and nemerle)
+
+Said another way, in the Nemerle code, 1 class is defined with **2 methods**.  The compiled output is 1 class with **8 methods**.  The generated methods have such amazing names as `Substring :: assert "cool!"·Substring(5, 1) should be "!"`.  (Yes, that method name has spaces and funky characters that you probably never thought you would see in a method name).
+
+This quite literal method name means you can focus on writing a clear test without having to come up with an english description for each test.  The differences between tests are clear because the test code is in the name.
+
+When a test consists of a single line of code, in C# this would probably require 3-5 lines of code.  So each one-line test would take up 5 lines of code.
+
+#### Low-ceremony: Less code, less cruft, less redundancy
+
+```cs
+/* 1 */ [TestMethod]
+/* 2 */ public void ZeroDotAdd1ShouldBe1()
+/* 3 */ {
+/* 4 */    Assert.AreEqual(1, 0.Add(1));
+/* 5 */ }
+
+/* 1 */ [TestMethod]
+/* 2 */ public void ZeroDotAdd1DotAdd2ShouldBe1()
+/* 3 */ {
+/* 4 */    Assert.AreEqual(3, 0.Add(1).Add(2));
+/* 5 */ }
+```
+
+Did you notice my copy and paste error (1+2 = 3, but the method is named "...ShouldBe1")?  Code written this way violates the single truth rule.
+
+Now consider to the following Nemerle FluenTest code.  The equivilant code which is grouped nicely.  The code expresses in 3 lines what took 10 to do above.
+
+```nemerle
+[OneLiner] Add() : void
+  Assert.AreEqual(1, 0.Add(1));
+  Assert.AreEqual(3, 0.Add(1).Add(2));
+```
+
+Writing tests in this concise way lets you express and describe the behavior in code.
