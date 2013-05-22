@@ -72,4 +72,4 @@ namespace SampleTests
 
 The sample above defines 5 Substring tests and 3 Upper tests.  In standard MSTest style, the above would be two tests, not 8.  With the `[OneLiner]` macro, 8 tests are defined as seen below.  And they have clear names - No more restating test code in english just to give the test a memorable name.
 
-![Resharper showing off our awesome test method names](master/SampleTests/Images/ResharperLowCeremonyTests.png)
+![Resharper showing off our awesome test method names](SampleTests/Images/ResharperLowCeremonyTests.png)
