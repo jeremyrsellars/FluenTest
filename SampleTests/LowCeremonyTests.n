@@ -1,0 +1,20 @@
+﻿#pragma indent
+
+using System
+using Microsoft.VisualStudio.TestTools.UnitTesting
+using FluenTest
+
+namespace SampleTests
+  [TestClass]\
+  public class LowCeremonyTests
+    [OneLiner] Substring() : void
+      assert "sweet!".Substring(0,0) should be ""
+      assert "great!".Substring(5,1) should be "!"
+      assert "012345".Substring(2,3) should be "234"
+      assert "cool!".Substring(0,0) should refer to string.Empty
+      assert _ = "asdf".Substring(-1,0) should throw ArgumentException
+
+    [OneLiner] Upper() : void
+      assert char.IsUpper('A') should be true
+      assert char.IsUpper('b') should be false
+      assert char.IsUpper('4') should be false
