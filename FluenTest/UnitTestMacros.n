@@ -39,7 +39,11 @@ namespace FluenTest
         }
     }
     
+    def hasAttribute(value : NemerleModifiers, flags : NemerleModifiers) : bool
+      value & flags == flags
+
     def body = f.Body
     addTestMethod(body)
     f.Modifiers.Modifiers = (f.Modifiers.Modifiers & ~NemerleModifiers.AccessModifiers) | NemerleAttributes.Public
-    f.Modifiers.CustomAttributes = <[ Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod ]> :: f.Modifiers.CustomAttributes
+    when(hasAttribute(f.Modifiers.Modifiers, NemerleModifiers.Public))
+      f.Modifiers.CustomAttributes = <[ Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod ]> :: f.Modifiers.CustomAttributes
