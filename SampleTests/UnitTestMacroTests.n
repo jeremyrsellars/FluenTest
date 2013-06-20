@@ -1,0 +1,32 @@
+﻿#pragma indent
+
+using System
+using Microsoft.VisualStudio.TestTools.UnitTesting
+using FluenTest
+
+namespace MacroTests
+
+  public class TestMethodTests
+    public MethodInfoOf(action : Action) : System.Reflection.MethodInfo
+      action.Method
+
+    public MethodIsTestMethod(method : System.Reflection.MethodInfo) : bool
+      method.GetCustomAttributes(typeof(TestMethodAttribute), false).Length >= 1
+
+
+  [TestClass]\
+  public class WhenMethodIsDeclaredPrivate : TestMethodTests
+    mutable testsPerInstance : int
+    public getTestsPerInstance() : int
+      testsPerInstance++
+      testsPerInstance
+
+    [OneLiner] ItShouldNotGetA_TestMethodAttribute_BecauseThenSequenceOfDeclaredTestsWouldMatter() : void
+      assert getTestsPerInstance() should be 1
+      assert getTestsPerInstance() + " should still be 1" should be "1 should still be 1"
+
+  [TestClass]\
+  public class WhenMethodIsDeclaredPublic : TestMethodTests
+
+    [OneLiner] public ItShouldGetA_TestMethodAttribute() : void
+      assert MethodIsTestMethod(MethodInfoOf(ItShouldGetA_TestMethodAttribute)) should be true
